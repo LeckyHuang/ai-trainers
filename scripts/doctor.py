@@ -106,8 +106,8 @@ def http_post_raw(url: str, data: bytes, headers: dict, timeout: int = 15) -> tu
 REQUIRED_VARS = [
     "DATABASE_URL", "SECRET_KEY",
     "QWEN_API_KEY", "QWEN_BASE_URL",
-    "MINIMAX_API_KEY", "MINIMAX_GROUP_ID",
-    "DOUBAO_ACCESS_KEY", "DOUBAO_APP_KEY",
+    "MINIMAX_API_KEY",
+    "DOUBAO_ACCESS_KEY", "DOUBAO_SECRET_KEY",
 ]
 OPTIONAL_VARS = ["UPLOAD_DIR", "REDIS_URL", "CELERY_BROKER_URL"]
 
@@ -238,11 +238,10 @@ def check_qwen(env: dict):
         _record("Qwen LLM", "fail", str(e)[:120])
 
 def check_tts(env: dict):
-    api_key  = env.get("MINIMAX_API_KEY") or os.environ.get("MINIMAX_API_KEY", "")
-    group_id = env.get("MINIMAX_GROUP_ID") or os.environ.get("MINIMAX_GROUP_ID", "")
+    api_key = env.get("MINIMAX_API_KEY") or os.environ.get("MINIMAX_API_KEY", "")
 
-    if not api_key or not group_id:
-        _record("MiniMax TTS", "fail", "MINIMAX_API_KEY 或 MINIMAX_GROUP_ID 未配置")
+    if not api_key:
+        _record("MiniMax TTS", "fail", "MINIMAX_API_KEY 未配置")
         return
 
     url = "https://api.minimax.chat/v1/t2a_v2"
@@ -279,11 +278,11 @@ def _doubao_auth_header(access_key: str, app_key: str, body: bytes) -> str:
     return f"HMAC256; access_key={access_key}; timestamp={ts}; signature={sig}"
 
 def check_asr(env: dict):
-    access_key = env.get("DOUBAO_ACCESS_KEY") or os.environ.get("DOUBAO_ACCESS_KEY", "")
-    app_key    = env.get("DOUBAO_APP_KEY")    or os.environ.get("DOUBAO_APP_KEY", "")
+    access_key  = env.get("DOUBAO_ACCESS_KEY")  or os.environ.get("DOUBAO_ACCESS_KEY", "")
+    secret_key  = env.get("DOUBAO_SECRET_KEY")  or os.environ.get("DOUBAO_SECRET_KEY", "")
 
-    if not access_key or not app_key:
-        _record("Doubao ASR", "fail", "DOUBAO_ACCESS_KEY 或 DOUBAO_APP_KEY 未配置")
+    if not access_key or not secret_key:
+        _record("Doubao ASR", "fail", "DOUBAO_ACCESS_KEY 或 DOUBAO_SECRET_KEY 未配置")
         return
 
     wav = make_tiny_wav()
@@ -298,7 +297,7 @@ def check_asr(env: dict):
     body = json.dumps(payload_dict).encode()
     headers = {
         "Content-Type": "application/json",
-        "Authorization": _doubao_auth_header(access_key, app_key, body),
+        "Authorization": _doubao_auth_header(access_key, secret_key, body),
         "X-Api-Resource-Id": "volc.bigasr.sauc.duration",
     }
 
