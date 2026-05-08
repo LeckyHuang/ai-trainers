@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 陪练 · 设计稿</title>
+<link rel="stylesheet" href="tokens.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<style>
+  body { margin: 0; background: #f0eee9; font-family: var(--font-stack); -webkit-font-smoothing: antialiased; }
+  #root { min-height: 100vh; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script type="text/babel" src="design-canvas.jsx"></script>
+<script type="text/babel" src="components/icons.jsx"></script>
+<script type="text/babel" src="components/common.jsx"></script>
+<script type="text/babel" src="components/frames.jsx"></script>
+<script type="text/babel" src="components/AudioRecorder.jsx"></script>
+<script type="text/babel" src="components/VoiceChatBubble.jsx"></script>
+<script type="text/babel" src="components/ScoreDisplay.jsx"></script>
+
+<script type="text/babel" src="screens/L02_home.jsx"></script>
+<script type="text/babel" src="screens/L05_L08_qa.jsx"></script>
+<script type="text/babel" src="screens/L10_dialogue.jsx"></script>
+<script type="text/babel" src="screens/L_misc.jsx"></script>
+<script type="text/babel" src="screens/admin_chrome.jsx"></script>
+<script type="text/babel" src="screens/A_part1.jsx"></script>
+<script type="text/babel" src="screens/A_part2.jsx"></script>
+<script type="text/babel" src="screens/A_misc.jsx"></script>
+<script type="text/babel" src="screens/P_part1.jsx"></script>
+<script type="text/babel" src="screens/A_banks.jsx"></script>
+<script type="text/babel" src="screens/A_personas.jsx"></script>
+<script type="text/babel" src="screens/P_part2.jsx"></script>
+<script type="text/babel" src="screens/A_tasks.jsx"></script>
+
+<script type="text/babel" data-presets="react">
+function App() {
+  return (
+    <DesignCanvas>
+      <DCSection id="cover" title="AI 陪练设计稿" subtitle="移动端学员 / PC 端学员 / 管理后台 · 共 18 个屏幕">
+        <DCArtboard id="cover-card" label="项目概览" width={520} height={520}>
+          <CoverCard/>
+        </DCArtboard>
+      </DCSection>
+
+      <DCSection id="mobile-learner" title="移动端 · 学员" subtitle="iOS 风格，4.7 寸视口，蓝白主色">
+        <DCArtboard id="m-login" label="L01 · 登录" width={390} height={844}><L01_Login/></DCArtboard>
+        <DCArtboard id="m-home" label="L02 · 首页" width={390} height={844}><L02_Mobile/></DCArtboard>
+        <DCArtboard id="m-notif" label="L03 · 通知" width={390} height={844}><L03_Notifications/></DCArtboard>
+        <DCArtboard id="m-profile" label="L04 · 我的" width={390} height={844}><L04_Profile/></DCArtboard>
+        <DCArtboard id="m-reading" label="L05 · 资料学习" width={390} height={844}><L05_Reading/></DCArtboard>
+        <DCArtboard id="m-practice" label="L06 · 边学边练" width={390} height={844}><L06_Practice/></DCArtboard>
+        <DCArtboard id="m-exam" label="L07 · 正式考核" width={390} height={844}><L07_Exam/></DCArtboard>
+        <DCArtboard id="m-result" label="L08 · 考核结果" width={390} height={844}><L08_Result/></DCArtboard>
+        <DCArtboard id="m-role" label="L09 · 选择对话对象" width={390} height={844}><L09_RoleSelect/></DCArtboard>
+        <DCArtboard id="m-dlg" label="L10 · 对练进行中" width={390} height={844}><L10_Dialogue/></DCArtboard>
+        <DCArtboard id="m-rpresult" label="L11 · 对练评分" width={390} height={844}><L11_RoleplayResult/></DCArtboard>
+      </DCSection>
+
+      <DCSection id="pc-learner" title="PC 端 · 学员" subtitle="macOS 窗口风格，1280×800，与移动端共用任务模型">
+        <DCArtboard id="pc-login" label="P01b · 登录" width={1280} height={800}><P01b_LoginPC/></DCArtboard>
+        <DCArtboard id="pc-home" label="P01 · 学员首页" width={1280} height={800}><L02_PC/></DCArtboard>
+        <DCArtboard id="pc-notif" label="P02 · 通知中心" width={1280} height={800}><P02_NotificationsPC/></DCArtboard>
+        <DCArtboard id="pc-profile" label="P03 · 个人中心" width={1280} height={920}><P03_ProfilePC/></DCArtboard>
+        <DCArtboard id="pc-reading" label="P04 · 资料学习" width={1280} height={800}><P04_PCReading/></DCArtboard>
+        <DCArtboard id="pc-practice" label="P05 · 边学边练" width={1280} height={800}><P05_PCPractice/></DCArtboard>
+        <DCArtboard id="pc-exam" label="P06 · 正式考核" width={1280} height={840}><P06_ExamPC/></DCArtboard>
+        <DCArtboard id="pc-result" label="P07 · 考核结果" width={1280} height={920}><P07_ResultPC/></DCArtboard>
+        <DCArtboard id="pc-roleselect" label="P08 · 选择对话对象" width={1280} height={840}><P08_RoleSelectPC/></DCArtboard>
+        <DCArtboard id="pc-dialogue" label="P09 · 对练进行中" width={1280} height={800}><P09_PCDialogue/></DCArtboard>
+        <DCArtboard id="pc-rpresult" label="P10 · 对练评分" width={1280} height={920}><P10_RoleplayResultPC/></DCArtboard>
+      </DCSection>
+
+      <DCSection id="admin" title="管理后台" subtitle="macOS 风格，深灰侧栏 + 浅灰内容区，1280×800">
+        <DCArtboard id="a-login" label="A01 · 后台登录" width={520} height={600}><A01_AdminLogin/></DCArtboard>
+        <DCArtboard id="a-dash" label="A02 · 仪表盘" width={1280} height={800}><A02_Dashboard/></DCArtboard>
+        <DCArtboard id="a-users" label="A03 · 用户列表" width={1280} height={800}><A03_Users/></DCArtboard>
+        <DCArtboard id="a-files" label="A06 · 文件库" width={1280} height={800}><A06_Files/></DCArtboard>
+        <DCArtboard id="a-banks" label="A07 · 题库管理" width={1280} height={800}><A07_Banks/></DCArtboard>
+        <DCArtboard id="a-bank-detail" label="A08 · 题库详情" width={1280} height={800}><A08_BankDetail/></DCArtboard>
+        <DCArtboard id="a-bank-create" label="A08a · 新建题库 Modal" width={1280} height={800}><A08a_BankCreateModal/></DCArtboard>
+        <DCArtboard id="a-bank-ai" label="A08b · AI 批量生成" width={1280} height={800}><A08b_AIGenerateModal/></DCArtboard>
+        <DCArtboard id="a-bank-import" label="A08c · 批量导入 + 校验" width={1280} height={800}><A08c_BulkImport/></DCArtboard>
+        <DCArtboard id="a-bank-edit" label="A08d · 单题编辑 Drawer" width={1280} height={800}><A08d_QuestionEditDrawer/></DCArtboard>
+        <DCArtboard id="a-personas" label="A10 · 角色库" width={1280} height={800}><A10_Personas/></DCArtboard>
+        <DCArtboard id="a-persona-create" label="A09 · 新建角色" width={1280} height={920}><A09_PersonaCreate/></DCArtboard>
+        <DCArtboard id="a-persona-edit" label="A10b · 角色编辑（双列）" width={1280} height={920}><A10b_PersonaEdit/></DCArtboard>
+        <DCArtboard id="a-persona-regen" label="A10c · 重新生成画像 diff" width={1280} height={1100}><A10c_PersonaRegenerate/></DCArtboard>
+        <DCArtboard id="a-persona-try" label="A10d · 角色试聊 Modal" width={1280} height={800}><A10d_PersonaTryChat/></DCArtboard>
+        <DCArtboard id="a-task-list" label="A11 · 任务列表（双 Tab）" width={1280} height={800}><A11_TaskList/></DCArtboard>
+        <DCArtboard id="a-task-basic" label="A12b · 任务创建 · 基本信息" width={1280} height={920}><A12b_TaskBasic/></DCArtboard>
+        <DCArtboard id="a-task-create" label="A12 · 任务创建（题目配置）" width={1280} height={800}><A12_TaskCreator/></DCArtboard>
+        <DCArtboard id="a-task-rules" label="A12c · 任务创建 · 考核规则" width={1280} height={1000}><A12c_TaskRules/></DCArtboard>
+        <DCArtboard id="a-task-audience" label="A12d · 任务创建 · 推送范围" width={1280} height={1000}><A12d_TaskAudience/></DCArtboard>
+        <DCArtboard id="a-task-rp" label="A13 · 模拟对练任务创建" width={1280} height={1100}><A13_RoleplayTaskCreator/></DCArtboard>
+        <DCArtboard id="a-task-progress" label="A14 · 任务进度详情" width={1280} height={800}><A14_TaskProgress/></DCArtboard>
+        <DCArtboard id="a-reports" label="A18 · 数据报表" width={1280} height={800}><A18_Reports/></DCArtboard>
+        <DCArtboard id="a-userdetail" label="A04 · 用户详情" width={1280} height={900}><A04_UserDetail/></DCArtboard>
+        <DCArtboard id="a-groups" label="A05 · 用户分组" width={1280} height={820}><A05_GroupManager/></DCArtboard>
+        <DCArtboard id="a-settings" label="A15 · 企业设置" width={1280} height={1080}><A15_CompanySettings/></DCArtboard>
+        <DCArtboard id="a-audit" label="A16 · 审计日志" width={1280} height={900}><A16_AuditLog/></DCArtboard>
+      </DCSection>
+
+      <DCSection id="superadmin" title="超管视角" subtitle="跨企业全局管理">
+        <DCArtboard id="sa-tenants" label="SA02 · 企业账号" width={1280} height={800}><SA02_Tenants/></DCArtboard>
+        <DCArtboard id="sa-prompts" label="SA03 · Prompt 模板" width={1280} height={820}><SA03_PromptTemplates/></DCArtboard>
+      </DCSection>
+
+      <DCSection id="ds" title="设计系统" subtitle="色彩 / 字号 / 间距 · 移动端为主，PC/后台沿用">
+        <DCArtboard id="ds-tokens" label="Design Tokens" width={1080} height={680}>
+          <DesignTokens/>
+        </DCArtboard>
+      </DCSection>
+    </DesignCanvas>
+  );
+}
+
+function CoverCard() {
+  return (
+    <div style={{ width: '100%', height: '100%', padding: 36, background: 'linear-gradient(135deg, #007AFF 0%, #5856D6 100%)', color: 'white', borderRadius: 12, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+      <div>
+        <div style={{ width: 56, height: 56, borderRadius: 14, background: 'rgba(255,255,255,0.18)', backdropFilter: 'blur(20px)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 18 }}>
+          <Icon name="sparkles" size={28} color="white"/>
+        </div>
+        <div style={{ fontSize: 32, fontWeight: 700, letterSpacing: -0.5, lineHeight: 1.1 }}>AI 陪练 · 企业培训平台</div>
+        <div style={{ fontSize: 14, opacity: 0.85, marginTop: 12, lineHeight: 1.6 }}>面向 B 端的 AI 培训陪练 SaaS。<br/>3 端互通：移动学员 · PC 学员 · 管理后台。</div>
+      </div>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 12 }}>
+        {[
+          { l: '移动端', v: 11, sub: '学员侧主战场' },
+          { l: 'PC 端', v: 1, sub: '复用同一任务模型' },
+          { l: '管理后台', v: 9, sub: '管理员 + 超管' },
+        ].map(s => (
+          <div key={s.l} style={{ background: 'rgba(255,255,255,0.12)', backdropFilter: 'blur(20px)', borderRadius: 10, padding: 12 }}>
+            <div style={{ fontSize: 11, opacity: 0.8 }}>{s.l}</div>
+            <div style={{ fontSize: 28, fontWeight: 700, lineHeight: 1.2, margin: '2px 0' }}>{s.v}</div>
+            <div style={{ fontSize: 10, opacity: 0.7 }}>{s.sub}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function DesignTokens() {
+  return (
+    <div style={{ width: '100%', height: '100%', padding: 28, background: 'white', borderRadius: 12, overflow: 'auto', display: 'flex', flexDirection: 'column', gap: 22 }}>
+      <div>
+        <div style={{ fontSize: 22, fontWeight: 700, color: 'var(--text-primary)' }}>Design Tokens</div>
+        <div style={{ fontSize: 13, color: 'var(--text-secondary)', marginTop: 4 }}>iOS HIG 启发；移动端为锚定，PC 与后台共用同一套色彩与圆角</div>
+      </div>
+
+      <div>
+        <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--text-secondary)', marginBottom: 10, letterSpacing: 0.5, textTransform: 'uppercase' }}>语义色 · Semantic Colors</div>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: 10 }}>
+          {[
+            { l: 'Primary', t: 'var(--color-primary)', hex: '#007AFF' },
+            { l: 'Success', t: 'var(--color-success)', hex: '#34C759' },
+            { l: 'Warning', t: 'var(--color-warning)', hex: '#FF9500' },
+            { l: 'Danger', t: 'var(--color-danger)', hex: '#FF3B30' },
+            { l: 'Purple', t: 'var(--color-purple)', hex: '#AF52DE' },
+            { l: 'Cyan', t: 'var(--color-cyan)', hex: '#5AC8FA' },
+          ].map(c => (
+            <div key={c.l} style={{ borderRadius: 8, overflow: 'hidden', border: '1px solid var(--separator)' }}>
+              <div style={{ height: 56, background: c.t }}/>
+              <div style={{ padding: 10 }}>
+                <div style={{ fontSize: 12, fontWeight: 600 }}>{c.l}</div>
+                <div style={{ fontSize: 10, color: 'var(--text-secondary)', fontFamily: 'monospace', marginTop: 2 }}>{c.hex}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 22 }}>
+        <div>
+          <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--text-secondary)', marginBottom: 10, letterSpacing: 0.5, textTransform: 'uppercase' }}>排版 · Type Scale</div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+            {[
+              { l: 'Display', s: 28, w: 700 },
+              { l: 'Title 1', s: 22, w: 700 },
+              { l: 'Title 2', s: 17, w: 700 },
+              { l: 'Body', s: 15, w: 400 },
+              { l: 'Footnote', s: 13, w: 400 },
+              { l: 'Caption', s: 11, w: 500 },
+            ].map(t => (
+              <div key={t.l} style={{ display: 'flex', alignItems: 'baseline', gap: 14, padding: '6px 0', borderBottom: '1px solid var(--separator)' }}>
+                <div style={{ width: 70, fontSize: 11, color: 'var(--text-secondary)', fontFamily: 'monospace' }}>{t.l}</div>
+                <div style={{ flex: 1, fontSize: t.s, fontWeight: t.w }}>AI 陪练</div>
+                <div style={{ fontSize: 10, color: 'var(--text-tertiary)', fontFamily: 'monospace' }}>{t.s}px / {t.w}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div>
+          <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--text-secondary)', marginBottom: 10, letterSpacing: 0.5, textTransform: 'uppercase' }}>间距 + 圆角</div>
+          <div style={{ display: 'flex', gap: 6, marginBottom: 12, alignItems: 'flex-end' }}>
+            {[4, 8, 12, 16, 20, 24, 32].map(s => (
+              <div key={s} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4 }}>
+                <div style={{ width: s, height: s, background: 'var(--color-primary)', borderRadius: 2 }}/>
+                <div style={{ fontSize: 10, color: 'var(--text-tertiary)', fontFamily: 'monospace' }}>{s}</div>
+              </div>
+            ))}
+          </div>
+          <div style={{ display: 'flex', gap: 12, marginBottom: 16 }}>
+            {[
+              { l: 'S', r: 8 }, { l: 'M', r: 14 }, { l: 'L', r: 20 },
+            ].map(r => (
+              <div key={r.l} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4 }}>
+                <div style={{ width: 50, height: 50, background: 'linear-gradient(135deg, #007AFF, #5856D6)', borderRadius: r.r }}/>
+                <div style={{ fontSize: 10, color: 'var(--text-tertiary)', fontFamily: 'monospace' }}>{r.l} · {r.r}px</div>
+              </div>
+            ))}
+          </div>
+
+          <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--text-secondary)', marginBottom: 8, letterSpacing: 0.5, textTransform: 'uppercase' }}>阴影</div>
+          <div style={{ display: 'flex', gap: 12 }}>
+            {[
+              { l: '1', s: 'var(--shadow-1)' },
+              { l: '2', s: 'var(--shadow-2)' },
+              { l: '3', s: 'var(--shadow-3)' },
+            ].map(sh => (
+              <div key={sh.l} style={{ width: 60, height: 60, background: 'white', borderRadius: 10, boxShadow: sh.s, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, fontWeight: 600, color: 'var(--text-secondary)' }}>L{sh.l}</div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+window.App = App;
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body>
+</html>

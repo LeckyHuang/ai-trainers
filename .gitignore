@@ -1,0 +1,47 @@
+# 敏感配置 - 禁止提交
+backend/.env
+backend/data/INITIAL_ADMIN_PASSWORD.txt
+
+# 运行时产物
+backend/data/
+backend/uploads/
+backend/logs/
+backend/venv/
+backend/__pycache__/
+backend/**/__pycache__/
+backend/**/*.pyc
+
+# 前端构建产物
+admin/dist/
+admin/node_modules/
+learning/dist/
+learning/node_modules/
+
+# Python 缓存（任意层级）
+**/__pycache__/
+**/*.pyc
+**/*.pyo
+*.egg-info/
+
+# 数据库文件
+*.db
+*.sqlite
+*.sqlite3
+backend/app.db
+
+# 编辑器
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# 测试产物
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# 系统文件
+.DS_Store
+Thumbs.db
