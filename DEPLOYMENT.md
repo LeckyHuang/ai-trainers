@@ -466,6 +466,40 @@ crontab -e
 0 2 * * * mysqldump -u aitrainer -p'密码' ai_trainer > /opt/backups/ai_trainer_$(date +\%Y\%m\%d).sql
 ```
 
+### 系统健康检测（doctor）
+
+项目内置 `scripts/doctor.py` 健康检测工具，**建议每次更新代码后、以及出现异常时运行**。
+
+```bash
+cd /opt/ai-trainer
+source backend/venv/bin/activate
+
+# 基础检测（环境变量 + 数据库连通 + 数据完整性）
+python scripts/doctor.py
+
+# 附加 AI 三方服务连通性（Qwen / MiniMax / Doubao）
+python scripts/doctor.py --ai
+
+# 全量检测 + 自动修复可修复问题（推荐每次更新后运行）
+python scripts/doctor.py --all
+
+# 仅输出警告和错误（适合写入 crontab 日志）
+python scripts/doctor.py --quiet
+```
+
+**doctor 检测范围：**
+
+| 层级 | 检测项 | 自动修复 |
+|------|--------|---------|
+| Layer 1 环境 | 必填环境变量是否配置、uploads 目录是否存在 | ✓ 可创建缺失目录 |
+| Layer 2 数据库 | 数据库连通性、核心表是否存在 | — |
+| Layer 3 AI 服务 | Qwen / MiniMax TTS / Doubao ASR 接口实测 | — |
+| Layer 4 数据 | 卡住的提交记录（>2h in_progress）、评分完整性、文件孤岛 | ✓ 可标记 expired |
+
+**退出码：** `0` = 全部正常，`1` = 有警告，`2` = 有失败（可用于 CI/CD 或监控脚本判断）。
+
+> 提示：数据库连通检测需要在 venv 中执行（依赖 `aiosqlite` 或 `aiomysql`）。直接用系统 Python 运行时 Layer 2 会跳过。
+
 ### 多客户实例管理（方案 A）
 
 ```bash
